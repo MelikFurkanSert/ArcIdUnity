@@ -13,6 +13,7 @@ public class MoneyUI : MonoBehaviour
     private Camera mainCamera;
     public int money;
     [SerializeField] private Vector3 MoneyPunchScale;
+    private bool doOnce;
 
     void Awake()
     {
@@ -39,9 +40,14 @@ public class MoneyUI : MonoBehaviour
     }
     public void ScaleElastic()
     {
-        this.transform.DOPunchScale(new Vector3(MoneyPunchScale.x, MoneyPunchScale.y, MoneyPunchScale.z), 0.5f).SetLoops(1, LoopType.Yoyo).OnComplete(() =>
+        if (doOnce == false)
         {
-            this.transform.localScale = new Vector3(2, 1, 1);
-        });
+            doOnce= true;
+            this.transform.DOPunchScale(new Vector3(MoneyPunchScale.x, MoneyPunchScale.y, MoneyPunchScale.z), 0.5f).SetLoops(1, LoopType.Yoyo).OnComplete(() =>
+            {
+                this.transform.localScale = new Vector3(2, 1, 1);
+                doOnce = false;
+            });
+        }
     }
 }
